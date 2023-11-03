@@ -160,3 +160,10 @@ set_auto_regulation_mode:
                         - "Medium"
                         - "Strong"
                         - "Slow"
+
+restore_preset_mode:
+    name: Restore preset mode
+    description: Restore previously stored preset mode
+    target:
+        entity:
+            integration: versatile_thermostat

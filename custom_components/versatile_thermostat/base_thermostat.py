@@ -2350,6 +2350,16 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
             await self.restore_hvac_mode(True)
         self.update_custom_attributes()
 
+    async def service_restore_preset_mode(self):
+        """Called by a service call:
+        service: versatile_thermostat.restore_preset_mode
+        target:
+            entity_id: climate.thermostat_1
+        """
+        _LOGGER.info("%s - Calling service_restore_preset_mode", self)
+        await self.restore_preset_mode()
+        await self._async_control_heating(force=True)
+
     def send_event(self, event_type: EventType, data: dict):
         """Send an event"""
         _LOGGER.info("%s - Sending event %s with data: %s", self, event_type, data)

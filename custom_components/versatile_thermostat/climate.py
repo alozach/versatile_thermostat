@@ -26,6 +26,7 @@ from .const import (
     SERVICE_SET_SECURITY,
     SERVICE_SET_WINDOW_BYPASS,
     SERVICE_SET_AUTO_REGULATION_MODE,
+    SERVICE_RESTORE_PRESET_MODE,
     CONF_THERMOSTAT_TYPE,
     CONF_THERMOSTAT_SWITCH,
     CONF_THERMOSTAT_CLIMATE,
@@ -114,4 +115,11 @@ async def async_setup_entry(
             vol.Required("auto_regulation_mode"): vol.In(["None", "Light", "Medium", "Strong", "Slow"]),
         },
         "service_set_auto_regulation_mode",
+    )
+
+
+    platform.async_register_entity_service(
+        SERVICE_RESTORE_PRESET_MODE,
+        {},
+        "service_restore_preset_mode"
     )
