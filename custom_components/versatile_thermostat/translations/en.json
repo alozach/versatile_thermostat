@@ -163,7 +163,8 @@
         "title": "Additional parameters",
         "description": "Configuration of additional parameters, that can be used to make this integration compatible with a better-thermostat-ui-card",
         "data": {
-          "humidity_sensor_entity_id": "Humidity sensor entity id"
+          "humidity_sensor_entity_id": "Humidity sensor entity id",
+          "target_temp_step": "Target temperature step"
         }
       }
     },
@@ -339,8 +340,8 @@
         "title": "Additional parameters",
         "description": "Configuration of additional parameters, that can be used to make this integration compatible with a better-thermostat-ui-card",
         "data": {
-          "humidity_sensor_entity_id": "Humidity sensor entity id"
-        }
+          "humidity_sensor_entity_id": "Humidity sensor entity id",
+          "target_temp_step": "Target temperature step"        }
       }
     },
     "error": {

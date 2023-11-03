@@ -103,6 +103,7 @@ from .const import (
     CONF_TEMP_MIN,
     HIDDEN_PRESETS,
     CONF_AC_MODE,
+    CONF_TARGET_TEMP_STEP,
     UnknownEntity,
     EventType,
     ATTR_MEAN_POWER_CYCLE,
@@ -245,6 +246,8 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
 
         self._humidity_sensor_entity_id = None
         self._cur_hum = None
+
+        self._target_temp_step = None
 
         self.post_init(entry_infos)
 
@@ -455,6 +458,8 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
         )
 
         self._humidity_sensor_entity_id = entry_infos.get(CONF_HUMIDITY)
+
+        self._target_temp_step = entry_infos.get(CONF_TARGET_TEMP_STEP)
 
 
     async def async_added_to_hass(self):
@@ -933,7 +938,7 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
     @property
     def target_temperature_step(self) -> float | None:
         """Return the supported step of target temperature."""
-        return None
+        return self._target_temp_step
 
     @property
     def target_temperature_high(self) -> float | None:

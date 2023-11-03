@@ -51,6 +51,7 @@ from .const import (
     CONF_EXTERNAL_TEMP_SENSOR,
     CONF_HUMIDITY_SENSOR,
     CONF_HUMIDITY,
+    CONF_TARGET_TEMP_STEP,
     CONF_POWER_SENSOR,
     CONF_MAX_POWER_SENSOR,
     CONF_WINDOW_SENSOR,
@@ -211,6 +212,7 @@ class VersatileThermostatBaseConfigFlow(FlowHandler):
                 vol.Optional(CONF_USE_MOTION_FEATURE, default=False): cv.boolean,
                 vol.Optional(CONF_USE_POWER_FEATURE, default=False): cv.boolean,
                 vol.Optional(CONF_USE_PRESENCE_FEATURE, default=False): cv.boolean,
+                vol.Optional(CONF_TARGET_TEMP_STEP, default=1): vol.Coerce(float),
             }
         )
 
