@@ -49,6 +49,8 @@ from .const import (
     CONF_HEATER_4,
     CONF_TEMP_SENSOR,
     CONF_EXTERNAL_TEMP_SENSOR,
+    CONF_HUMIDITY_SENSOR,
+    CONF_HUMIDITY,
     CONF_POWER_SENSOR,
     CONF_MAX_POWER_SENSOR,
     CONF_WINDOW_SENSOR,
@@ -435,6 +437,17 @@ class VersatileThermostatBaseConfigFlow(FlowHandler):
             }
         )
 
+        self.STEP_ADDITIONAL_DATA_SCHEMA = vol.Schema(  # pylint: disable=invalid-name
+            {
+                vol.Optional(CONF_HUMIDITY_SENSOR): selector.EntitySelector(
+                    selector.EntitySelectorConfig(
+                        domain=[SENSOR_DOMAIN, INPUT_NUMBER_DOMAIN]
+                    ),
+                ),
+            }
+        )
+
+
     async def validate_input(self, data: dict) -> None:
         """Validate the user input allows us to connect.
 
@@ -647,6 +660,17 @@ class VersatileThermostatBaseConfigFlow(FlowHandler):
             "advanced",
             self.STEP_ADVANCED_DATA_SCHEMA,
             user_input,
+            self.async_step_additional,  # pylint: disable=no-member
+        )
+
+    async def async_step_additional(self, user_input: dict | None = None) -> FlowResult:
+        """Handle the additional parameter flow steps"""
+        _LOGGER.debug("Into ConfigFlow.async_step_additional user_input=%s", user_input)
+
+        return await self.generic_step(
+            "additional",
+            self.STEP_ADDITIONAL_DATA_SCHEMA,
+            user_input,
             self.async_finalize,  # pylint: disable=no-member
         )
 
@@ -854,6 +878,19 @@ class VersatileThermostatOptionsFlowHandler(
         return await self.generic_step(
             "advanced",
             self.STEP_ADVANCED_DATA_SCHEMA,
+            user_input,
+            self.async_step_additional,
+        )
+
+    async def async_step_additional(self, user_input: dict | None = None) -> FlowResult:
+        """Handle the additional flow steps"""
+        _LOGGER.debug(
+            "Into OptionsFlowHandler.async_step_additional user_input=%s", user_input
+        )
+
+        return await self.generic_step(
+            "additional",
+            self.STEP_ADDITIONAL_DATA_SCHEMA,
             user_input,
             self.async_end,
         )

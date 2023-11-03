@@ -30,6 +30,14 @@ input_number:
         icon: mdi:home-thermometer
         unit_of_measurement: °C
         mode: box
+    fake_humidity_sensor1:
+        name: Humidity
+        min: 0
+        max: 100
+        step: 1
+        icon: mdi:water-percent
+        unit_of_measurement: "%"
+        mode: box
     fake_current_power:
         name: Current power
         min: 0

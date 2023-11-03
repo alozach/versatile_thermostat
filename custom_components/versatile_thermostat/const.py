@@ -79,6 +79,8 @@ CONF_AC_MODE = "ac_mode"
 CONF_WINDOW_AUTO_OPEN_THRESHOLD = "window_auto_open_threshold"
 CONF_WINDOW_AUTO_CLOSE_THRESHOLD = "window_auto_close_threshold"
 CONF_WINDOW_AUTO_MAX_DURATION = "window_auto_max_duration"
+CONF_HUMIDITY = "humidity"
+CONF_HUMIDITY_SENSOR = "humidity_sensor_entity_id"
 CONF_VALVE = "valve_entity_id"
 CONF_VALVE_2 = "valve_entity2_id"
 CONF_VALVE_3 = "valve_entity3_id"
@@ -189,6 +191,7 @@ ALL_CONF = (
         CONF_USE_PRESENCE_FEATURE,
         CONF_USE_POWER_FEATURE,
         CONF_AC_MODE,
+        CONF_HUMIDITY_SENSOR,
         CONF_VALVE,
         CONF_VALVE_2,
         CONF_VALVE_3,

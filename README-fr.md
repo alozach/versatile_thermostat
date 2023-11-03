@@ -402,6 +402,7 @@ Voir [exemple de réglages](#examples-tuning) pour avoir des exemples de réglag
 | ``thermostat_type`` | Type de thermostat | X | X | X |
 | ``temperature_sensor_entity_id`` | Temperature sensor entity id | X | - | X |
 | ``external_temperature_sensor_entity_id`` | Température exterieure sensor entity id | X | - | X |
+| ``humidity_sensor_entity_id`` | Humidité sensor entity id | X | X | X |
 | ``cycle_min`` | Durée du cycle (minutes) | X | X | X |
 | ``temp_min`` | Température minimale permise | X | X | X |
 | ``temp_max`` | Température maximale permise | X | X | X |

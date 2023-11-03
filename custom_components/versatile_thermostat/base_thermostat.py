@@ -87,6 +87,7 @@ from .const import (
     CONF_TPI_COEF_EXT,
     CONF_PRESENCE_SENSOR,
     CONF_PRESET_POWER,
+    CONF_HUMIDITY,
     SUPPORT_FLAGS,
     PRESET_POWER,
     PRESET_SECURITY,
@@ -241,6 +242,9 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
         self._last_change_time = None
 
         self._underlyings = []
+
+        self._humidity_sensor_entity_id = None
+        self._cur_hum = None
 
         self.post_init(entry_infos)
 
@@ -450,6 +454,9 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
             self.unique_id,
         )
 
+        self._humidity_sensor_entity_id = entry_infos.get(CONF_HUMIDITY)
+
+
     async def async_added_to_hass(self):
         """Run when entity about to be added."""
         _LOGGER.debug("Calling async_added_to_hass")
@@ -463,6 +470,15 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
                 self._async_temperature_changed,
             )
         )
+
+        if self._humidity_sensor_entity_id:
+            self.async_on_remove(
+                async_track_state_change_event(
+                    self.hass,
+                    [self._humidity_sensor_entity_id],
+                    self._async_humidity_changed,
+                )
+            )
 
         if self._ext_temp_sensor_entity_id:
             self.async_on_remove(
@@ -559,6 +575,19 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
                     float(temperature_state.state),
                 )
                 await self._async_update_temp(temperature_state)
+                need_write_state = True
+
+            humidity_state = self.hass.states.get(self._humidity_sensor_entity_id)
+            if humidity_state and humidity_state.state not in (
+                STATE_UNAVAILABLE,
+                STATE_UNKNOWN,
+            ):
+                _LOGGER.debug(
+                    "%s - humidity sensor have been retrieved: %.1f",
+                    self,
+                    float(humidity_state.state),
+                )
+                await self._async_update_hum(humidity_state)
                 need_write_state = True
 
             if self._ext_temp_sensor_entity_id:
@@ -1262,6 +1291,22 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
         self.recalculate()
         await self.async_control_heating(force=False)
 
+    @callback
+    async def _async_humidity_changed(self, event: Event):
+        """Handle humidity of the humidity sensor changes."""
+        new_state: State = event.data.get("new_state")
+        _LOGGER.debug(
+            "%s - Humidity changed. Event.new_state is %s",
+            self,
+            new_state,
+        )
+        if new_state is None or new_state.state in (STATE_UNAVAILABLE, STATE_UNKNOWN):
+            return
+
+        await self._async_update_hum(new_state)
+        self.recalculate()
+        await self._async_control_heating(force=False)
+
     async def _async_ext_temperature_changed(self, event: Event):
         """Handle external temperature opf the sensor changes."""
         new_state: State = event.data.get("new_state")
@@ -1491,6 +1536,18 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
 
             # check window_auto
             await self._async_manage_window_auto()
+
+        except ValueError as ex:
+            _LOGGER.error("Unable to update temperature from sensor: %s", ex)
+
+    @callback
+    async def _async_update_hum(self, state: State):
+        """Update thermostat with latest state from sensor."""
+        try:
+            cur_hum = float(state.state)
+            if math.isnan(cur_hum) or math.isinf(cur_hum):
+                raise ValueError(f"Sensor has illegal state {state.state}")
+            self._cur_hum = cur_hum
 
         except ValueError as ex:
             _LOGGER.error("Unable to update temperature from sensor: %s", ex)
@@ -2166,6 +2223,8 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
             "presence_sensor_entity_id": self._presence_sensor_entity_id,
             "power_sensor_entity_id": self._power_sensor_entity_id,
             "max_power_sensor_entity_id": self._max_power_sensor_entity_id,
+            "humidity_entity_id": self._humidity_sensor_entity_id,
+            "humidity": self._cur_hum,
         }
 
     @callback

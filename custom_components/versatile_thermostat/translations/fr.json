@@ -158,6 +158,13 @@
           "security_min_on_percent": "Seuil minimal de pourcentage de chauffage en-dessous duquel le préréglage sécurité ne sera jamais activé",
           "security_default_on_percent": "Valeur par défaut pour le pourcentage de chauffage en mode sécurité. Mettre 0 pour éteindre le radiateur en mode sécurité"
         }
+      },
+      "additional": {
+        "title": "Paramètres additionels",
+        "description": "Configuration des paramètres additionnels, pouvant être utilisés pour rendre cette intégration compatible avec une better-thermostat-ui-card",
+        "data": {
+          "humidity_sensor_entity_id": "Humidité sensor entity id"
+        }
       }
     },
     "error": {
@@ -327,6 +334,13 @@
           "security_delay_min": "Délai maximal autorisé en minutes entre 2 mesures de températures. Au-dessus de ce délai, le thermostat se mettra en position de sécurité",
           "security_min_on_percent": "Seuil minimal de pourcentage de chauffage en-dessous duquel le préréglage sécurité ne sera jamais activé",
           "security_default_on_percent": "Valeur par défaut pour le pourcentage de chauffage en mode sécurité. Mettre 0 pour éteindre le radiateur en mode sécurité"
+        }
+      },
+      "additional": {
+        "title": "Paramètres additionels",
+        "description": "Configuration des paramètres additionnels, pouvant être utilisés pour rendre cette intégration compatible avec une better-thermostat-ui-card",
+        "data": {
+          "humidity_sensor_entity_id": "Humidité sensor entity id"
         }
       }
     },

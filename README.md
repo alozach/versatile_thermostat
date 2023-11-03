@@ -386,6 +386,7 @@ See [example tuning](#examples-tuning) for common tuning examples
 | ``name`` | Name | X | X | X |
 | ``thermostat_type`` | Thermostat type | X | X | X |
 | ``temperature_sensor_entity_id`` | Temperature sensor entity id | X | - | X |
+| ``humidity_sensor_entity_id`` | Humidity sensor entity id | X | X | X |
 | ``external_temperature_sensor_entity_id`` | External temperature sensor entity id | X | - | X |
 | ``cycle_min`` | Cycle duration (minutes) | X | X | X |
 | ``temp_min`` | Minimal temperature allowed | X | X | X |
