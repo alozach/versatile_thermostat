@@ -2,7 +2,7 @@
 // "image": "ghcr.io/ludeeus/devcontainer/integration:latest",
 {
 	"image": "mcr.microsoft.com/devcontainers/python:1-3.11-bullseye",
-	"name": "Versatile Thermostat integration",
+	"name": "My Versatile Thermostat integration",
 	"appPort": [
 		"8123:8123"
 	],
