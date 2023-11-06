@@ -1310,7 +1310,7 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
 
         await self._async_update_hum(new_state)
         self.recalculate()
-        await self._async_control_heating(force=False)
+        await self.async_control_heating(force=False)
 
     async def _async_ext_temperature_changed(self, event: Event):
         """Handle external temperature opf the sensor changes."""
@@ -2358,7 +2358,7 @@ class BaseThermostat(ClimateEntity, RestoreEntity):
         """
         _LOGGER.info("%s - Calling service_restore_preset_mode", self)
         await self.restore_preset_mode()
-        await self._async_control_heating(force=True)
+        await self.async_control_heating(force=True)
 
     def send_event(self, event_type: EventType, data: dict):
         """Send an event"""
